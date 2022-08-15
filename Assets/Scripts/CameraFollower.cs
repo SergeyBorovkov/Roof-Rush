@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraFollower : MonoBehaviour
 {
@@ -6,8 +7,9 @@ public class CameraFollower : MonoBehaviour
         
     private Vector3 _zoomedTargetOffset;
     private Vector3 _deltaPosition;
+    private Vector3 _velocity = Vector3.zero;
     private bool _isZoomed;
-    private float _speed = 4;    
+    private float _smoothTime = 0.05f;    
 
     private void Start()
     {
@@ -18,8 +20,8 @@ public class CameraFollower : MonoBehaviour
 
     private void Update()
     {
-        if (_isZoomed == false)                    
-            transform.position =  _target.position + _deltaPosition;        
+        if (_isZoomed == false)        
+            transform.position = Vector3.SmoothDamp(transform.position, _target.position + _deltaPosition, ref _velocity, _smoothTime);        
         else        
             ShowFinish();        
     }
@@ -33,8 +35,8 @@ public class CameraFollower : MonoBehaviour
     {
         var rotationDirection = _target.position - transform.position;              
 
-        transform.rotation = Quaternion.LookRotation(rotationDirection, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(rotationDirection, Vector3.up);        
 
-        transform.position = Vector3.Lerp(transform.position, _target.position + _zoomedTargetOffset, Time.deltaTime * _speed);
+        transform.DOMove(_target.position + _zoomedTargetOffset, 1f);
     }
 }

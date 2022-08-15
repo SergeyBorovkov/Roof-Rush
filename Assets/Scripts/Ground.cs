@@ -10,14 +10,16 @@ public class Ground : MonoBehaviour
     [SerializeField] private ParticleSystem _yellowEffect;
     [SerializeField] private ParticleSystem _redEffect;
 
+    private bool _isScaleEnded;
     private Vector3 _playEffectPosition;
     private Block _jumpingBlock;
     private Coroutine _changeScaleJob;
     private bool _isPlayerOnBlocks;    
-    public bool IsScaleEnded;
     private bool _isNoticeShown;
     private float _resetTime = 1f;
-    private WaitForSeconds _scalePause = new WaitForSeconds(0.02f);
+    private WaitForSeconds _scalePause = new WaitForSeconds(0.005f);
+
+    public bool IsScaleEnded => _isScaleEnded;
 
     public bool IsPlayerOnBlocks => _isPlayerOnBlocks;
 
@@ -95,14 +97,14 @@ public class Ground : MonoBehaviour
             yield return pause;
         }
 
-        IsScaleEnded = true;
+        _isScaleEnded = true;
 
         Invoke(nameof(SetFalse), _resetTime);
     }
 
     private void SetFalse()
     {
-        IsScaleEnded = false;
+        _isScaleEnded = false;
     }
 
     private void OnJumpActivated(Block block)

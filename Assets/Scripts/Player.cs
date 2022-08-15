@@ -52,20 +52,20 @@ public class Player : MonoBehaviour
             if (_block != null)
             {
                 _block.TriggerJumpActivatedEvent();
-                StartCoroutine(ActivateJump());
+                StartCoroutine(ActivateJump());                
             }
             else
             {
-                Jump(_jumpHeight, _jumpLength, _jumpModifier);
+                Jump(_jumpHeight, _jumpLength, _jumpModifier);                
             }
 
-            IsJumped?.Invoke(_block);                        
+            IsJumped?.Invoke(_block);            
         }
 
         if (_isGrounded)        
             transform.position = new Vector3(0, _defaultHeight, transform.position.z + Time.deltaTime * _runSpeed);        
 
-        _animator.SetBool(_isGroundedHash, _isGrounded);
+        _animator.SetBool(_isGroundedHash, _isGrounded);        
     }
 
     private void FixedUpdate()
@@ -104,7 +104,9 @@ public class Player : MonoBehaviour
         {
             _jumpModifier = block.JumpModifier;
 
-            _block = block;                
+            _block = block;
+
+            _ground = block.Ground;
         }
     }
 
@@ -117,8 +119,8 @@ public class Player : MonoBehaviour
 
     private void Jump(float height, float length, float multiplier)
     {
-        float upTime = 0.25f;
-        float downTime = 0.25f;
+        float upTime = 0.35f;
+        float downTime = 0.5f;
         float heightRatio = 1;
 
         if (multiplier > 1)
@@ -130,9 +132,9 @@ public class Player : MonoBehaviour
 
         _jumpSequence = DOTween.Sequence();
 
-        _jumpSequence.Append(transform.DOMoveY(transform.position.y + height * multiplier * heightRatio, upTime * multiplier).SetEase(Ease.OutQuart));
-        _jumpSequence.Append(transform.DOMoveY(_defaultHeight, downTime * multiplier).SetEase(Ease.InQuad));
-        _jumpSequence.Insert(0, transform.DOMoveZ(transform.position.z + length * multiplier, (upTime + downTime) * multiplier).SetEase(Ease.Linear));
+        _jumpSequence.Append(transform.DOMoveY(transform.position.y + height * multiplier * heightRatio, upTime * multiplier * heightRatio).SetEase(Ease.OutSine));
+        _jumpSequence.Append(transform.DOMoveY(_defaultHeight, downTime * multiplier * heightRatio).SetEase(Ease.InSine));
+        _jumpSequence.Insert(0, transform.DOMoveZ(transform.position.z + length * multiplier, (upTime + downTime) * multiplier * heightRatio).SetEase(Ease.Linear));
         _jumpSequence.AppendCallback(EndJumping);
     }
     

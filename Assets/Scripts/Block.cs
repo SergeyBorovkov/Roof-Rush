@@ -17,6 +17,7 @@ public class Block : MonoBehaviour
     private float _maxScaleX = 3;
     private float _scaleTime = 0.3f;
 
+    public Ground Ground => _ground;
     public bool IsGoodNoticed => _isGoodNoticed;
     public float JumpModifier => _jumpModifier;
 
