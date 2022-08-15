@@ -6,10 +6,10 @@ public class CameraFollower : MonoBehaviour
     [SerializeField] private Transform _target;
         
     private Vector3 _zoomedTargetOffset;
-    private Vector3 _deltaPosition;
-    private Vector3 _velocity = Vector3.zero;
+    private Vector3 _deltaPosition;    
     private bool _isZoomed;
-    private float _smoothTime = 0.05f;    
+    private float _durationY = 0.5f;
+    private float _durationZ = 0.1f;
 
     private void Start()
     {
@@ -20,10 +20,16 @@ public class CameraFollower : MonoBehaviour
 
     private void Update()
     {
-        if (_isZoomed == false)        
-            transform.position = Vector3.SmoothDamp(transform.position, _target.position + _deltaPosition, ref _velocity, _smoothTime);        
-        else        
-            ShowFinish();        
+        if (_isZoomed == false)
+        {
+            transform.DOMoveY(_target.position.y + _deltaPosition.y, _durationY);
+
+            transform.DOMoveZ(_target.position.z + _deltaPosition.z, _durationZ);
+        }
+        else
+        {
+            ShowFinish();
+        }
     }
 
     public void ZoomFinish()

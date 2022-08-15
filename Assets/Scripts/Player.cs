@@ -112,14 +112,14 @@ public class Player : MonoBehaviour
 
     private IEnumerator ActivateJump()
     {
-        yield return new WaitUntil(() => _ground.IsScaleEnded);
+        yield return new WaitUntil(() => _ground.IsScaleStarted);
 
         Jump(_jumpHeight, _jumpLength, _jumpModifier);
     }
 
     private void Jump(float height, float length, float multiplier)
     {
-        float upTime = 0.35f;
+        float upTime = 0.6f;
         float downTime = 0.5f;
         float heightRatio = 1;
 
@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
 
         _jumpSequence = DOTween.Sequence();
 
-        _jumpSequence.Append(transform.DOMoveY(transform.position.y + height * multiplier * heightRatio, upTime * multiplier * heightRatio).SetEase(Ease.OutSine));
+        _jumpSequence.Append(transform.DOMoveY(transform.position.y + height * multiplier * heightRatio, upTime * multiplier * heightRatio).SetEase(Ease.InOutQuad));
         _jumpSequence.Append(transform.DOMoveY(_defaultHeight, downTime * multiplier * heightRatio).SetEase(Ease.InSine));
         _jumpSequence.Insert(0, transform.DOMoveZ(transform.position.z + length * multiplier, (upTime + downTime) * multiplier * heightRatio).SetEase(Ease.Linear));
         _jumpSequence.AppendCallback(EndJumping);
