@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Coin
   m_Shader: {fileID: 4800000, guid: bee44b4a58655ee4cbff107302a3e131, type: 3}
-  m_ShaderKeywords: _CELPRIMARYMODE_SINGLE _TEXTUREBLENDINGMODE_MULTIPLY _UNITYSHADOWMODE_NONE
+  m_ShaderKeywords: _ALLOWALPHAOVERFLOW_OFF _CELPRIMARYMODE_SINGLE _TEXTUREBLENDINGMODE_MULTIPLY
+    _UNITYSHADOWMODE_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: dece17131e3376348a0569b92e8df418, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CelCurveTexture:
@@ -36,23 +37,28 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d6207aee8f70cd14aa714835bc53d45f, type: 3}
+        m_Texture: {fileID: 2800000, guid: f9df78fb954efa54f80776d78acf63c1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AllowAlphaOverflow: 0
     - _AlphaClip: 0
     - _Blend: 0
+    - _CameraDistanceFadeClose: 0
+    - _CameraDistanceFadeFar: 10
     - _CelExtraEnabled: 0
     - _CelNumSteps: 3
     - _CelPrimaryMode: 1
     - _Cull: 2
+    - _Cutoff: 0.527
+    - _Depth: 100
     - _DstBlend: 0
-    - _FlatRimEdgeSmoothness: 0.5
-    - _FlatRimLightAlign: 0
-    - _FlatRimSize: 0.5
-    - _FlatSpecularEdgeSmoothness: 0.033
-    - _FlatSpecularSize: 0.165
-    - _Flatness: 0.61
+    - _FlatRimEdgeSmoothness: 0.593
+    - _FlatRimLightAlign: 0.464
+    - _FlatRimSize: 0.637
+    - _FlatSpecularEdgeSmoothness: 0
+    - _FlatSpecularSize: 0.269
+    - _Flatness: 0.379
     - _FlatnessExtra: 1
     - _GradientAngle: 0
     - _GradientCenterX: 0
@@ -65,30 +71,32 @@ Material:
     - _OverrideLightmapDir: 0
     - _QueueOffset: 0
     - _RimEnabled: 0
-    - _SelfShadingSize: 0.319
-    - _SelfShadingSizeExtra: 0.6
-    - _ShadowEdgeSize: 0.246
+    - _SelfShadingSize: 0.826
+    - _SelfShadingSizeExtra: 0.734
+    - _ShadowEdgeSize: 0.311
     - _ShadowEdgeSizeExtra: 0.05
     - _Shininess: 0.31914094
     - _SpecularEnabled: 0
     - _SrcBlend: 1
     - _Surface: 0
     - _TextureBlendingMode: 0
-    - _TextureImpact: 0.494
+    - _TextureImpact: 0.413
     - _UnityShadowMode: 0
     - _UnityShadowPower: 0.138
     - _UnityShadowSharpness: 2.59
+    - _UvFadeX: 0.1
+    - _UvFadeY: 0.1
     - _VertexColorsEnabled: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.9607843, g: 0.7988809, b: 0.023529435, a: 0.972549}
-    - _ColorDim: {r: 0.9607843, g: 0.5900771, b: 0.023529435, a: 1}
+    - _Color: {r: 0.97530866, g: 1, b: 0, a: 0.972549}
+    - _ColorDim: {r: 0.764151, g: 0.63071436, b: 0.12615699, a: 1}
     - _ColorDimCurve: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
-    - _ColorDimExtra: {r: 1, g: 0.9467512, b: 0, a: 1}
+    - _ColorDimExtra: {r: 0.8396226, g: 0.7623837, b: 0.13069598, a: 1}
     - _ColorDimSteps: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
-    - _ColorGradient: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
-    - _FlatRimColor: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
-    - _FlatSpecularColor: {r: 1, g: 0.9467512, b: 0, a: 1}
+    - _ColorGradient: {r: 0.8353388, g: 0.8490566, b: 0.2683339, a: 0.972549}
+    - _FlatRimColor: {r: 0.8523242, g: 0.8679245, b: 0.12691349, a: 0.972549}
+    - _FlatSpecularColor: {r: 0.9245283, g: 0.87975556, b: 0.10902455, a: 1}
     - _LightmapDirection: {r: 0, g: 1, b: 0, a: 0}
     - _ReflectColor: {r: 0.46323532, g: 0.2587728, b: 0, a: 1}
     - _SpecColor: {r: 1, g: 0.8813387, b: 0.6691177, a: 1}

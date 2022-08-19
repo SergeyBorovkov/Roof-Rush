@@ -85,8 +85,8 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GradientAngle: 75
-    - _GradientCenterX: 9.06
+    - _GradientAngle: 83
+    - _GradientCenterX: 9.3
     - _GradientCenterY: 4.87
     - _GradientEnabled: 1
     - _GradientSize: 10
@@ -118,12 +118,12 @@ Material:
     - _VertexColorsEnabled: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.26820046, g: 0.36964288, b: 0.46226418, a: 1}
+    - _Color: {r: 0.6, g: 0.76862746, b: 0.8666667, a: 1}
     - _ColorDim: {r: 0.38901743, g: 0.48874232, b: 0.5849056, a: 1}
     - _ColorDimCurve: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
     - _ColorDimExtra: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
     - _ColorDimSteps: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
-    - _ColorGradient: {r: 0.08085617, g: 0.13086125, b: 0.21698111, a: 1}
+    - _ColorGradient: {r: 0.04739231, g: 0.06482142, b: 0.14150941, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlatRimColor: {r: 0.029503385, g: 0.18259864, b: 0.3679245, a: 1}
     - _FlatSpecularColor: {r: 0.2422812, g: 0.33245158, b: 0.5028866, a: 1}

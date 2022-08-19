@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using DG.Tweening;
 
@@ -7,18 +6,19 @@ public class Block : MonoBehaviour
     [SerializeField] private Ground _ground;    
     [SerializeField] private bool _isGoodNoticed;    
     [SerializeField] private float _jumpModifier;
-
-    public event Action <Block> IsJumpActivated;
-
+    
     private Sequence _scalingSequence;    
     private float _defaultScaleX;    
-    private float _pause = 0.1f;
-    private float _longPause = 3f;    
+    private bool _isPlayerEntered;
+    private bool _isWaveActivated;
+    private float _shortPause = 0.1f;
+    private float _longPause = 0.2f;    
     private float _maxScaleX = 3;
     private float _scaleTime = 0.3f;
 
     public Ground Ground => _ground;
     public bool IsGoodNoticed => _isGoodNoticed;
+    public bool IsPlayerEntered => _isPlayerEntered;
     public float JumpModifier => _jumpModifier;
 
     private void Start()
@@ -28,31 +28,36 @@ public class Block : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<Player>(out Player player) && _ground.IsPlayerOnBlocks)
+        if (other.gameObject.TryGetComponent<Player>(out Player player))
         {
-            if (player.IsGrounded == false)            
-                ScaleWave(_longPause);            
-            else                         
-                ScaleWave(_pause);                                        
+            _isPlayerEntered = true;
+
+            if (player.IsGrounded == false)
+                ActivateLongWave();
         }
     }
 
-    public void TriggerJumpActivatedEvent()
+    public void ActivateShortWave()
     {
-        IsJumpActivated?.Invoke(this);
+        ScaleWave(_shortPause);        
     }
 
-    public void ActivateWave()
-    {        
-        ScaleWave(_pause);
+    public void ActivateLongWave()
+    {
+        ScaleWave(_longPause);        
     }
-    
+
     private void ScaleWave(float pause)
     {
-        _scalingSequence = DOTween.Sequence();
+        if (_isWaveActivated == false)
+        {
+            _scalingSequence = DOTween.Sequence();
 
-        _scalingSequence.Append(transform.DOScaleX(_maxScaleX, _scaleTime));
-        _scalingSequence.AppendInterval(pause);
-        _scalingSequence.Append(transform.DOScaleX(_defaultScaleX, _scaleTime));
+            _scalingSequence.Append(transform.DOScaleX(_maxScaleX, _scaleTime));
+            _scalingSequence.AppendInterval(pause);
+            _scalingSequence.Append(transform.DOScaleX(_defaultScaleX, _scaleTime));
+
+            _isWaveActivated = true;
+        }
     }    
 }

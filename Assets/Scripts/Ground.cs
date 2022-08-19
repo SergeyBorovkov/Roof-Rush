@@ -6,7 +6,7 @@ public class Ground : MonoBehaviour
 {    
     [SerializeField] private Player _player;
     [SerializeField] private List<Block> _blocks;
-    [SerializeField] private UIHandler _UIhandler;
+    [SerializeField] private UIHandler _UIHandler;
     [SerializeField] private ParticleSystem _yellowEffect;
     [SerializeField] private ParticleSystem _redEffect;
 
@@ -14,38 +14,31 @@ public class Ground : MonoBehaviour
     private Block _jumpingBlock;
     private Coroutine _changeScaleJob;
     private bool _isScaleStarted;
-    private bool _isPlayerOnBlocks;    
-    private bool _isNoticeShown;
-    private float _resetTime = 1f;
-    private WaitForSeconds _scalePause = new WaitForSeconds(0.002f);
-
-    public bool IsScaleStarted => _isScaleStarted;
-    public bool IsPlayerOnBlocks => _isPlayerOnBlocks;
+    private bool _isPlayerOnBlocks;        
+    private float _resetScalingTime = 1f;           
 
     private void OnEnable()
     {
-        _player.IsJumped += OnPlayerJumped;
-
-        foreach (var block in _blocks)
-        {
-            block.IsJumpActivated += OnJumpActivated;
-        }
+        _player.IsJumpedFromBlock += OnPlayerJumpedFromBlock;
     }
 
     private void OnDisable()
     {
-        _player.IsJumped -= OnPlayerJumped;
-
-        foreach (var block in _blocks)
-        {
-            block.IsJumpActivated -= OnJumpActivated;
-        }
+        _player.IsJumpedFromBlock -= OnPlayerJumpedFromBlock;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.GetComponent<Player>())        
-            _isPlayerOnBlocks = true;                    
+        if (other.gameObject.GetComponent<Player>())
+        {
+            _isPlayerOnBlocks = true;
+
+            foreach (var block in _blocks)
+            {
+                if (block.IsPlayerEntered)
+                    block.ActivateShortWave();
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -54,7 +47,7 @@ public class Ground : MonoBehaviour
             _isPlayerOnBlocks = false;        
     }
 
-    private void OnPlayerJumped(Block jumpingBlock)
+    private void OnPlayerJumpedFromBlock(Block jumpingBlock)
     {
         if (_isPlayerOnBlocks && jumpingBlock != null)
         {            
@@ -63,10 +56,12 @@ public class Ground : MonoBehaviour
                 StopCoroutine(_changeScaleJob);
                 _changeScaleJob = null;
             }
-            else
-            {
-                _changeScaleJob = StartCoroutine(MakeScaleWithPause(GetRestBlocks(_blocks, jumpingBlock), _scalePause));           
-            }
+            
+            _changeScaleJob = StartCoroutine(MakeLongWave(GetRestBlocks(_blocks, jumpingBlock)));            
+        
+            ShowNotice(jumpingBlock);
+
+            ShowEffect(jumpingBlock);
         }
     }
 
@@ -88,57 +83,41 @@ public class Ground : MonoBehaviour
         return restBlocks;
     }    
 
-    private IEnumerator MakeScaleWithPause(List<Block> blocks, WaitForSeconds pause)
+    private IEnumerator MakeLongWave(List<Block> blocks)
     {
         _isScaleStarted = true;
 
         foreach (var block in blocks)
         {
-            block.ActivateWave();
-            yield return pause;
+            block.ActivateLongWave();
+            yield return null;
         }
 
-        Invoke(nameof(SetFalse), _resetTime);
+        Invoke(nameof(SetScalingFalse), _resetScalingTime);
     }
 
-    private void SetFalse()
+    private void SetScalingFalse()
     {
         _isScaleStarted = false;
     }
 
-    private void OnJumpActivated(Block block)
+    private void ShowNotice(Block block)
     {
-        _jumpingBlock = block;
-
-        if (_isNoticeShown == false)
-        {
-            _playEffectPosition = new Vector3(0, 0, block.transform.position.z);
-
-            if (block.IsGoodNoticed)
-            {
-                _UIhandler.ShowNotice();
-
-                PlayEffect(_yellowEffect, _playEffectPosition);
-            }
-            else
-            {
-                PlayEffect(_redEffect, _playEffectPosition);
-            }            
-
-            _isNoticeShown = true;
-        }
-
-        Invoke(nameof(ResetNoticeShowing), _resetTime);
+        if (block.IsGoodNoticed)
+            _UIHandler.AnimateNotice();        
     }
 
-    private void PlayEffect(ParticleSystem effect, Vector3 position)
+    private void ShowEffect(Block block)
     {
-        effect.transform.position = position;
+        if (block.IsGoodNoticed)        
+            PlayEffect(_yellowEffect);        
+        else        
+            PlayEffect(_redEffect);        
+    }
+
+    private void PlayEffect(ParticleSystem effect)
+    {
+        effect.transform.position = new Vector3(0,0, _player.transform.position.z);
         effect.Play();
-    }
-
-    private void ResetNoticeShowing()
-    {
-        _isNoticeShown = false;
-    }   
+    }  
 }

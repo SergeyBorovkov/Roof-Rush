@@ -6,19 +6,19 @@ public class UIHandler : MonoBehaviour
 {
     [SerializeField] private Player _player;
     [SerializeField] private Slider _slider;
+    [SerializeField] private Image _noticeImage;
     [SerializeField] private float _startPointZ;
     [SerializeField] private float _endPointZ;    
-    [SerializeField] private Image _noticeImage;
         
     private Sequence _noticeAnimationSequience;
     private Camera _camera;
     private float _totalDistance;    
     private float _noticeCenterPointX;
     private float _noticeEndPointX;    
-    private Vector3 _noticeRotated = new Vector3 (0, 0, 30);
     private float _noticeStartPointX = -150;
-    private float _noticeMoveDuration = 0.2f;
-    private float _noticeRotateDuration = 0.4f;
+    private float _noticeMoveDuration = 0.3f;
+    private float _noticeRotateDuration = 0.3f;
+    private Vector3 _noticeRotated = new Vector3 (0, 0, 30);
 
     private void Start()
     {
@@ -35,7 +35,7 @@ public class UIHandler : MonoBehaviour
             _slider.value = _player.transform.position.z / _totalDistance;        
     }
 
-    public void ShowNotice()
+    public void AnimateNotice()
     {
         StartAnimation();        
     }
